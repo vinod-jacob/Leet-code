@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define HERE() printf("%d - %s\n", __LINE__, __FUNCTION__ )
+#define HERE() //printf("%d - %s\n", __LINE__, __FUNCTION__ )
 
 bool HeadNotAtEndOfString(char ch)
 {
@@ -17,10 +17,10 @@ bool HeadNotAtEndOfString(char ch)
     return ret;
 }
 
-bool ifSubstringContainsThisCharacter(char *substring, char ch)
+bool ifSubstringContainsThisCharacter(char *substring, char ch, int *pos)
 {
-    bool ret = false;
-    for(int i = 0; substring[i] != '\0'; i++)
+    bool ret = false; int i = 0;
+    for(i; substring[i] != '\0'; i++)
     {
         if(substring[i] == ch)
         {
@@ -28,17 +28,18 @@ bool ifSubstringContainsThisCharacter(char *substring, char ch)
             break;
         }
     }
+    *pos = i;
     return ret;
 }
 
-void addCharacterPointedByHead(char *substring, char ch)
+void addCharacterPointedByHead(char *substring, char ch, int pos)
 {
-    int i = 0;
+    /* int i = 0;
     while(substring[i] != '\0')
     {
         i++;
-    }
-    substring[i] = ch;
+    } */
+    substring[pos] = ch;
 }
 
 int getCurrentLengthOfSubstring(char *substring)
@@ -82,6 +83,7 @@ void updateSubstringUsingHeadAndTail(char *fullstring, char* substring, int head
 int lengthOfLongestSubstring(char* fullString)
 {
     char substring[128] = {'\0'};
+    int pos = 0;
     int head = 0, tail = 0;
     int currentLengthOfSubstring = 0;
     int longestSubstring = 0;
@@ -96,23 +98,26 @@ int lengthOfLongestSubstring(char* fullString)
         //printf("SUBS1 ---> %s\n", substring);
         
 
-        if ( !ifSubstringContainsThisCharacter(substring, fullString[head])) // O(N)
+        if ( !ifSubstringContainsThisCharacter(substring, fullString[head], &pos)) // O(N)
         {
-            addCharacterPointedByHead(substring, fullString[head]); //O(N) --> but can be made constant time, using above step
+            addCharacterPointedByHead(substring, fullString[head], pos); //O(N) --> but can be made constant time, using above step
+            currentLengthOfSubstring++;
         }
         else
         {
             //printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
-            currentLengthOfSubstring = getCurrentLengthOfSubstring(substring); //O(N), but can be made constant time
+            //currentLengthOfSubstring = getCurrentLengthOfSubstring(substring); //O(N), but can be made constant time
             longestSubstring = currentLengthOfSubstring > longestSubstring ? currentLengthOfSubstring : longestSubstring; //O(1)
             //printf("current Tail --> %c === %d\n", fullString[tail], tail);   
-            moveTailUntilDuplicateCharacterPlusOne(substring, fullString[head], &tail); //O(N) -> can be made O(1)
+            //moveTailUntilDuplicateCharacterPlusOne(substring, fullString[head], &tail); //O(N) -> can be made O(1)
+            tail = tail + pos + 1;
             //printf("new Tail --> %c === %d\n", fullString[tail], tail);
             //printf("current Substring ---> %s\n", substring);
             flushSubstring(substring); //O(1)
             updateSubstringUsingHeadAndTail(fullString, substring, head, tail); //O(N)
             //printf("new Substring 1 ---> %s\n", substring);
-            addCharacterPointedByHead(substring, fullString[head]); //constant time
+            addCharacterPointedByHead(substring, fullString[head], head - tail); //constant time
+            currentLengthOfSubstring = head - tail + 1;
             //printf("new Substring 2 ---> %s\n", substring);
             //printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
         }
@@ -123,7 +128,8 @@ int lengthOfLongestSubstring(char* fullString)
         //printf("----------------------------------------\n\n");
         q++; //constant time
     }
-    currentLengthOfSubstring = getCurrentLengthOfSubstring(substring); //O(N) --> can be made constant time
+    //currentLengthOfSubstring = getCurrentLengthOfSubstring(substring); //O(N) --> can be made constant time
+    //currentLengthOfSubstring = head - tail + 1;
     longestSubstring = currentLengthOfSubstring > longestSubstring ? currentLengthOfSubstring : longestSubstring; //O(1)
     return longestSubstring;
 }
@@ -133,5 +139,6 @@ void main()
     //char s[] = {'p','w','w','k','e','w','\0'};
     //char s[] = {'d', 'v', 'd', 'f', '\0'};
     char s[] = {'a', 'a', 'b', 'a', 'a', 'b', '!', 'b', 'b', '\0'};
-    printf("largest = %d\n", lengthOfLongestSubstring(s));
+    //char s[] = {'b', 'b', 'b', 'b', 'b'};
+    //printf("largest = %d\n", lengthOfLongestSubstring(s));
 }
