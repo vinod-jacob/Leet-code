@@ -15,5 +15,5 @@ t "kamikaze" 6
 t "hello" 3
 #t $\x00 0
 #t " " 1
-t "teecups" 5
+t "teeicups" 6
 
