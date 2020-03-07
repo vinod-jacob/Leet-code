@@ -32,12 +32,16 @@ int lengthOfLongestSubstring(char* fullString)
     
 }
 
-void main()
+void main(int argc, char **argv)
 {
+    while (--argc > 0)
+    {
+        printf("%d", lengthOfLongestSubstring(*++argv));
+    }
     //char s[] = {'p','w','w','k','e','w','\0'};
     //char s[] = {'d', 'v', 'd', 'f', '\0'};
     //char s[] = {'a', 'a', 'b', 'a', 'a', 'b', '!', 'b', 'b', '\0'};
     //char s[] = {'b', 'b', 'b', 'b', 'b'};
-    char s[] = {'b'};
-    printf("largest = %d\n", lengthOfLongestSubstring(s));
+    //char s[] = {'b'};
+    
 }
