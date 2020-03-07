@@ -8,7 +8,7 @@ char* convert(char * s, int numRows)
     bool dir = false;
     struct Zigzag
     {
-        char* ret[10000];
+        char ret[10000];
         int length;
     }*zigzags;
 
