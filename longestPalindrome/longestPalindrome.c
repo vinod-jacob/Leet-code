@@ -67,8 +67,12 @@ char* longestPalindrome(char * s)
     return ret;
 }
 
-void main()
+void main(int argc, char **argv)
 {
-    char s[] = "cbbd";
-    printf("%s\n",longestPalindrome(s));
+    while (--argc > 0)
+    {
+        printf("%s", longestPalindrome(*++argv));
+    }
+    // char s[] = "cbbd";
+    // printf("%s\n",longestPalindrome(s));
 }
