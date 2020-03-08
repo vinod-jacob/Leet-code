@@ -8,7 +8,7 @@ char* convert(char * s, int numRows)
     bool dir = false;
     struct Zigzag
     {
-        char ret[10000];
+        char* ret;
         int length;
     }*zigzags;
 
@@ -17,11 +17,15 @@ char* convert(char * s, int numRows)
     for(int it = 0; it < numRows; it++)
     {
         zigzags[it].length = 0;
+        zigzags[it].ret = (char*)malloc(sizeof(char));
+        *zigzags[it].ret = '\0';
     }
 
     while(s[ptr] != '\0')
     {
          zigzags[runner].ret[zigzags[runner].length++] = s[ptr];
+         zigzags[runner].ret = (char*)realloc((char*)zigzags[runner].ret, zigzags[runner].length+1);
+         zigzags[runner].ret[zigzags[runner].length] = '\0';
          if ((runner == numRows-1) || (runner == 0))
          {
              dir = !dir;
@@ -55,6 +59,6 @@ char* convert(char * s, int numRows)
 
 void main()
 {
-    printf("%s\n", convert("", 1));
+    printf("%s\n", convert("PAYPALISHIRINGALLTHESHITEMPLOYEES", 3));
     //printf("%s\n", convert("CHATHOOTIMAAMAN", 1));
 }
