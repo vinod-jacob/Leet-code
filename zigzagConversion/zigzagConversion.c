@@ -1,64 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include<string.h>
+
 
 char* convert(char * s, int numRows)
 {
-    int ptr = 0; int runner = 0; 
+    int ptr = 0, runner = 0, length = 1, waterfallIncrementer = 0; 
     bool dir = false;
-    struct Zigzag
+    char *ret = (char*)malloc(sizeof(char) * (strlen(s) + 1)); *ret = '\0';
+    int *block = (int*)calloc(numRows, sizeof(int));
+    
+    while (s[ptr] != '\0')
     {
-        char* ret;
-        int length;
-    }*zigzags;
-
-    zigzags = (struct Zigzag*)malloc(numRows * sizeof(struct Zigzag));
-
-    for(int it = 0; it < numRows; it++)
-    {
-        zigzags[it].length = 0;
-        zigzags[it].ret = (char*)malloc(sizeof(char));
-        *zigzags[it].ret = '\0';
-    }
-
-    while(s[ptr] != '\0')
-    {
-         zigzags[runner].ret[zigzags[runner].length++] = s[ptr];
-         zigzags[runner].ret = (char*)realloc((char*)zigzags[runner].ret, zigzags[runner].length+1);
-         zigzags[runner].ret[zigzags[runner].length] = '\0';
-         if ((runner == numRows-1) || (runner == 0))
-         {
-             dir = !dir;
-         }
-         if (dir)
-         {
-             if(runner < numRows-1)
-                runner++;
-         }
-         else
-         {  
-             if(runner != 0)
-                runner --;
-         }
-         ptr++;
-    }
-    char *ret = (char*)malloc((ptr+1) * sizeof(char));
-    *ret = '\0';
-    ptr = 0;
-        for (int it = 0; it<numRows; it++)
-    { 
-        for(int j = 0; j<zigzags[it].length; j++)
+        length++;
+        for(int shifter = length-2; shifter >= block[runner]; shifter--)
         {
-            ret[ptr++] = zigzags[it].ret[j];
-            ret[ptr] = '\0';
+            ret[shifter + 1] = ret[shifter];
         }
-            
+        ret[block[runner]] = s[ptr];
+        waterfallIncrementer = runner;
+        while(waterfallIncrementer < numRows)
+        {
+            block[waterfallIncrementer]++;
+            waterfallIncrementer++;
+        }
+        if((runner == numRows-1) || (runner == 0))
+        {
+            dir = !dir;
+        }
+        if (numRows != 1)
+        {
+            if(dir)
+                runner++;
+            else
+                runner--;
+        }
+        ptr++;
     }
+
     return ret;
 }
 
 void main()
 {
-    printf("%s\n", convert("PAYPALISHIRINGALLTHESHITEMPLOYEES", 3));
+    printf("%s\n", convert("A", 3));
     //printf("%s\n", convert("CHATHOOTIMAAMAN", 1));
 }
