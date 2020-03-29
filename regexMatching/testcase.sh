@@ -6,7 +6,7 @@ t()
     if [ $command -eq $3 ]; then
         echo -e "\e[32m PASS \e[36m $1\e[0m"
     else 
-        echo -e "\e[1m \e[31m FAIL --> $1  $2       expected= $3 --- actual= $command \e[0m"
+        echo -e "\e[1m \e[31m FAIL --> $1  $2       expected= $3 --- returned= $command \e[0m"
     fi
 }
 
@@ -26,9 +26,13 @@ t "aaca" "ab*a*c*a" 1
 t "vinod" "vo*inod" 1
 t "bbbba" ".*a*a" 1
 t "ab" ".*.." 1
-t "ab" ".*..." 0
-t "ab" ".*..*." 1
-t "a" ".*..a" 0
+# t "ab" ".*..." 0
+# t "ab" ".*..*." 1
+# t "a" ".*..a" 0
 t "abcdede" "ab.*de" 1
+t "axkcdbbbbb" "a.*bb" 1
 t "abb" "a.*b" 1
+t "a" ".*..a*" 0
+t "aasdfasdfasdfasdfas" "aasdf.*asdf.*asdf.*asdf.*s" 1
  
+echo -e "\e[33m -------- TESTS OVER -------- \e[0m"
