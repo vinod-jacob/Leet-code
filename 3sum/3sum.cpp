@@ -13,21 +13,19 @@ using namespace std;
         {
             vector<vector<int>> sum3;
             unordered_multimap<int, int> umap;
-            unordered_multimap<int, int> umap_copy;
             unordered_set<int> tinyset;
             for (int i = 0; i < nums.size(); i++)
             {
-                umap_copy = umap;
-                if (umap_copy.count(nums[i]) == 0)
+                if (umap.count(nums[i]) == 0)
                 {
                     tinyset.clear();
-                    for (auto j = umap_copy.begin();!umap_copy.empty() && j != umap_copy.end();j++)
+                    for (auto j = umap.begin();j != umap.end();j++)
                     {
                         if(tinyset.find(j->first) == tinyset.end())
                         {
-                            int target = - (j->first + nums[i]);
-                            unordered_multimap<int, int>::iterator foudtarget = umap_copy.find(target);
-                            if(foudtarget != umap_copy.end())
+                            int target = -(j->first + nums[i]);
+                            unordered_multimap<int, int>::iterator foudtarget = umap.find(target);
+                            if(foudtarget != umap.end())
                             {
                                 if (j->second != foudtarget->second || umap.count(foudtarget->first) > 1) //make sure you don't find yourself,babe
                                 {
@@ -39,15 +37,15 @@ using namespace std;
                         }
                     }
                 }
-                else if (nums[i] !=0 && umap_copy.count(nums[i]) == 1)
+                else if (nums[i] !=0 && umap.count(nums[i]) == 1)
                 {
-                    unordered_multimap<int, int>::iterator foundi = umap_copy.find(-2*nums[i]);
-                    if (foundi != umap_copy.end())
+                    unordered_multimap<int, int>::iterator foundi = umap.find(-2*nums[i]);
+                    if (foundi != umap.end())
                     {
                         sum3.push_back({nums[i], nums[i], -2*nums[i]});
                     }
                 }
-                else if (nums[i] ==0 && umap_copy.count(nums[i]) == 2)
+                else if (nums[i] ==0 && umap.count(nums[i]) == 2)
                 {
                     sum3.push_back({0, 0, 0});
                 }
