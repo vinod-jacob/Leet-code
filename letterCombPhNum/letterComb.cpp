@@ -28,7 +28,7 @@ public:
                 recurse(prefix + letters[i], decremented_digits, res);
             }
         }
-        else if (digits.size() == 0)
+        else if (prefix != "")
         {
             res.push_back(prefix);
         }
