@@ -13,21 +13,27 @@ class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n)
     {
-        vector<pair<ListNode, ListNode*>> vLn;
-        for (ListNode* i = head; i != NULL; i = i->next)
+        ListNode* h1 = head;
+        ListNode* h2 = head;
+        
+        while(n != 0 )
         {
-            vLn.push_back({*i,i});
+            if (h1->next !=NULL) //this means remove the first element
+                h1 = h1->next;
+            else
+            {
+                head = head->next;
+                return head;
+            }
+            n--;
         }
-        int N = vLn.size()-1;
-        if (N-n >= 0)
+        while(h1->next != NULL)
         {
-            vLn[N-n].second->next = vLn[N-(n-1)].first.next;
+            h1 = h1->next;
+            h2 = h2->next;
         }
-        else
-        {
-            head = head->next;
-        }
-        return head; 
+        h2->next = h2->next->next;
+        return head;
     }
 };
 
@@ -45,7 +51,7 @@ int main()
     }
     cout << endl;
     Solution S1;
-    ListNode* new_head = S1.removeNthFromEnd(head, 5);
+    ListNode* new_head = S1.removeNthFromEnd(head, 2);
 
     cout << "---- Altered seq---      " << endl;
     for(ListNode* i = new_head; i != NULL; i = i->next)
