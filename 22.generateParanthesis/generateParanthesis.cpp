@@ -5,8 +5,6 @@
 using namespace std;
 
 class Solution {
-private:
-    const char* brackets = "()";
 public:
     vector<string> generateParenthesis(int n)
     {
@@ -24,28 +22,21 @@ public:
     {
         if(n != 0)
         {
-            for(int i = 0; i < 2; i++)
-            {
-                char ch = brackets[i];
-                int tracker = score;
-                ch == '('? tracker++ : tracker--;
-                if (tracker < 0) break;
-                genAllPar(prefix + ch, n-1, tracker, allPermuts);
-            }
+            genAllPar(prefix +'(', n-1, score +1, allPermuts);
+            if (score - 1 >= 0) genAllPar(prefix + ')', n-1 ,score -1, allPermuts);
         }
         else if(n == 0 && score == 0)
         {
             allPermuts.push_back(prefix);
         }
     }
-
 };
 
 int main()
 {
     Solution s1;
     vector<string> ans;
-    ans = s1.generateParenthesis(12);
+    ans = s1.generateParenthesis(4);
 
     for (auto i = ans.begin(); i != ans.end(); i++)
     {
