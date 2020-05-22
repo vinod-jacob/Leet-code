@@ -10,18 +10,17 @@ public:
 
         int len = nums.size()-1;
         int i = 0, j  = 1;
-        for (i= 0; i < len; i++)
+        while(j <= len)
         {
-            while(nums[i] == nums[j])
+            if (nums[i] == nums[j])
             {
-                if (j < len)
-                    j++;
-                else
-                {
-                    return i+1;
-                }
+                j++;
             }
-            nums[i+1] = nums[j];
+            else
+            {
+                nums[i+1] = nums[j];
+                i++;
+            }
         }
         return i+1;
     }
