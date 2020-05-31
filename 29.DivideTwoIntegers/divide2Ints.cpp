@@ -9,13 +9,11 @@ public:
     {
         if (ds == INT32_MIN)
         {
-            if(dd == INT32_MIN) return 1;
-            else return 0;
+            return dd == INT32_MIN? 1:0;
         }
         else if (dd == 0) return 0;
-
-        if (dd == INT32_MIN && ds == -1) // this will overflow, therfore return INT32_MAX as per problem description
-            return INT32_MAX;
+        else if (ds == 1) return dd;
+        else if (ds == -1 ) return (dd == INT32_MIN)? INT32_MAX: -dd; 
 
         int Q = 0;
         bool isneg = false;
