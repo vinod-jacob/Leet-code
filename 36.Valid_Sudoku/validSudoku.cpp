@@ -4,75 +4,26 @@
 
 using namespace std;
 
-class Solution {
+class Solution
+{
 public:
-    bool isValidSudoku(vector<vector<char>>& board)
+    bool isValidSudoku(vector<vector<char> > &board)
     {
-        set<int> columns[9];
-        set<int> threebythree[3];
-        for(int i = 0; i < 9; i++)
-        {
-            set<int> rows;
-            for(int j = 0; j < 9; j++)
-            {
-                if (board[i][j] == '.')
-                    continue;
-
-                if (rows.find(board[i][j]) == rows.end() && columns[j].find(board[i][j]) == columns[j].end())
+        int used1[9][9] = {0}, used2[9][9] = {0}, used3[9 ][9] = {0};
+        
+        for(int i = 0; i < board.size(); ++ i)
+            for(int j = 0; j < board[i].size(); ++ j)
+                if(board[i][j] != '.')
                 {
-                    switch (j)
-                    {
-                        case 0:
-                        case 1:
-                        case 2:
-                            if (threebythree[0].find(board[i][j]) == threebythree[0].end())
-                            {
-                                threebythree[0].insert(board[i][j]);
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                            break;
-                        case 3:
-                        case 4:
-                        case 5:
-                            if (threebythree[1].find(board[i][j]) == threebythree[1].end())
-                            {
-                                threebythree[1].insert(board[i][j]);
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                            break;
-                        case 6:
-                        case 7:
-                        case 8:
-                            if (threebythree[2].find(board[i][j]) == threebythree[2].end())
-                            {
-                                threebythree[2].insert(board[i][j]);
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                            break;
-                    }
-                    rows.insert(board[i][j]);
-                    columns[j].insert(board[i][j]);
+                    int num = board[i][j] - '0' - 1;
+                    int k = i / 3 * 3 + j / 3;
+
+                    if(used1[i][num] || used2[j][num] || used3[k][num])
+                        return false;
+                    used1[i][num] = used2[j][num] = used3[k][num] = 1;
                 }
-                else
-                    return false;
-            }
-            if (i == 2 || i ==5)
-            {
-                threebythree[0].erase(threebythree[0].begin(), threebythree[0].end());
-                threebythree[1].erase(threebythree[1].begin(), threebythree[1].end());
-                threebythree[2].erase(threebythree[2].begin(), threebythree[2].end());
-            }
-        }
-        return true;    
+        
+        return true;
     }
 };
 
