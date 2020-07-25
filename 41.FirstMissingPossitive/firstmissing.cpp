@@ -1,7 +1,6 @@
 #include<iostream>
 #include<vector>
-#include<set>
-// #include <bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -9,21 +8,32 @@ class Solution {
 public:
     int firstMissingPositive(vector<int>& nums)
     {
-        set<int> s;
-        for(auto it = nums.begin(); it != nums.end(); it++)
+        for(int i = 0; i< nums.size(); i++)
         {
-            s.insert(*it);
+            // keep swapping till all the numbers that appear in this slot is placed in the correct slot. Stop // when this slot has the correct number or the number is unswappable. {3,4,-1,1} -> keep swapping coz inputs like these
+
+            // don't swap if the number in the slot is greater than the number of slots
+
+            // only swap the positive numbers.
+
+            // a number becomes unswappable if
+            // 1. the number in the slot is -ve
+            // 2. the number is gretaer than the number of available slots
+            // 3. the slot which is meant to contain this number already has this number
+            // in any of the above cases, stop!
+            while(nums[i] > 0 && nums[i] <= nums.size() && nums[nums[i] -1] != nums[i])
+            {
+                swap(nums[i], nums[nums[i] - 1]);
+            }
         }
-        int i = 1;
-        for(i ; i < INT32_MAX; i++)
+        for(int i = 0; i < nums.size(); i++)
         {
-            if(s.find(i) == s.end())
-                break;
+            if(nums[i]-1 != i)
+                return i+1;
         }
-        return i;
+        return nums.size() +1;
     }
 };
-
 int main()
 {
     vector<int> nums = {3,4,-1,1};
