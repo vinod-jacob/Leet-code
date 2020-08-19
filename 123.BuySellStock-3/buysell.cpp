@@ -7,7 +7,7 @@ class Solution {
 private:
     vector<int> p;
 public:
-    int maxProfit(vector<int>& prices)
+    /* int maxProfit(vector<int>& prices)
     {
         if(prices.size() == 0 || prices.size() == 1)
             return 0;
@@ -38,14 +38,37 @@ public:
 
         }
 
+    } */
+
+    int maxProfit(vector<int>& prices)
+    {
+        if(prices.size() == 0 || prices.size() == 1)
+            return 0;
+
+        int profit = 0;
+        int M = 0;
+        int z = profit - prices[0];
+        int zmax = z;
+        int mins = prices[0];
+
+        for (int i = 1; i < prices.size(); i++)
+        {
+            M = max(M, prices[i] + zmax);
+            mins = min (mins, prices[i]);
+            profit = max(profit, prices[i] - mins);
+            z = profit - prices[i];
+            zmax = max(z, zmax);
+        }
+        return M;
     }
 };
 
 int main()
 {
     vector<int> p = {3,3,5,0,0,3,1,4};
-    // vector<int> p = {1,2,3,4,5};
-    // vector<int> p = {7,6,5,4,3,2};
+    // vector<int> p = {3,3,5,0,0,3,1,4};
+    // vector<int> p = {3,3,5,0,0,3,1,4};
+    // vector<int> p = {5, 11, 3, 50, 60, 90};
     Solution S1;
     cout << S1.maxProfit(p) << endl;
 }
