@@ -19,46 +19,27 @@ public:
     vector<int> postorderTraversal(TreeNode* root)
     {
         stack<TreeNode*> s;
-        TreeNode *current, *popped;
+        TreeNode *node, *last;
         vector<int> v;
-        if (root)
+        while(root || !s.empty())
         {
-            current = root;
-            s.push(current);
-            current = current->left;
-            while(!s.empty())
+            if(root)
             {
-                if(current)
+                s.push(root);
+                root = root->left;
+            }
+            else
+            {
+                TreeNode* node = s.top();
+                if(node->right && node->right != last)
                 {
-                    s.push(current);
-                    current = current->left;
+                    root = node->right;
                 }
                 else
                 {
-                    if(s.top()->right != current)
-                    {
-                        current = s.top()->right;
-                    }
-                    else
-                    {
-                        popped = s.top();
-                        v.push_back(popped->val);
-                        s.pop();
-                        if(!s.empty() && popped != s.top()->right)
-                        {
-                            current = s.top()->right;
-                        }
-                        else
-                        {
-                            while(!s.empty() && popped == s.top()->right)
-                            {
-                                popped = s.top();
-                                v.push_back(popped->val);
-                                s.pop();
-                            }
-                        }
-
-                    }
+                    last = node;
+                    v.push_back(last->val);
+                    s.pop();
                 }
             }
         }
@@ -68,11 +49,11 @@ public:
 
 int main()
 {
-    /* TreeNode five(5), six(6), seven(7);
+    TreeNode five(5), six(6), seven(7);
     TreeNode four(4, &five, nullptr);
     TreeNode two(2, &four, &six);
-    TreeNode three(3, nullptr, &seven); */
-    TreeNode one(1);
+    TreeNode three(3, nullptr, &seven);
+    TreeNode one(1, &two, &three);
 
     Solution S1;
     vector<int> res = S1.postorderTraversal(&one);
