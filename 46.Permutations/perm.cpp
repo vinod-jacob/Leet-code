@@ -22,14 +22,14 @@ public:
         }
         else
         {
-            vector<int> tempn, tempp;
             for(int i = 0; i < nums.size(); i++)
             {
-                tempp = perm;
-                tempn = nums;
-                tempp.push_back(nums[i]);
-                tempn.erase(tempn.begin() + i);
-                permute(perms, tempp, tempn);
+                int j = nums[i];
+                perm.push_back(j);
+                nums.erase(nums.begin() + i);
+                permute(perms, perm, nums);
+                perm.pop_back();
+                nums.insert(nums.begin(), j);
             }
         }
 
